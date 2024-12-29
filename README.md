@@ -1,108 +1,249 @@
-# Шаблон Java-проекта для домашних заданий
+# JMH Benchmark Results
 
-Шаблон для домашних заданий [Академии Бэкенда 2024][course-url].
+## Environment
+- **JMH version:** 1.37
+- **VM version:** JDK 22.0.2, OpenJDK 64-Bit Server VM, 22.0.2+9-70
+- **VM invoker:** `/Library/Java/JavaVirtualMachines/jdk-22.0.2.jdk/Contents/Home/bin/java`
+- **VM options:** `-XX:+ShowCodeDetailsInExceptionMessages`
+- **Blackhole mode:** compiler (auto-detected, use `-Djmh.blackhole.autoDetect=false` to disable)
 
-Цель данного репозитория – познакомить вас с процессом разработки приложений на
-Java с использованием наиболее распространенных практик, инструментов и
-библиотек.
+## Benchmark Configuration
+- **Warmup:** 5 iterations, 5 seconds each
+- **Measurement:** 10 iterations, 5 seconds each
+- **Timeout:** 10 minutes per iteration
+- **Threads:** 1 thread, will synchronize iterations
+- **Benchmark mode:** Average time, time/op
 
-## Структура проекта
+## Benchmarks
 
-Это типовой Java-проект, который собирается с помощью инструмента автоматической
-сборки проектов [Apache Maven](https://maven.apache.org/).
+### `backend.academy.Main.directAccess`
 
-Проект состоит из следующих директорий и файлов:
+#### Run Progress: 0.00% complete, ETA 00:10:00
 
-- [pom.xml](./pom.xml) – дескриптор сборки, используемый maven, или Project
-  Object Model. В нем описаны зависимости проекта и шаги по его сборке
-- [src/](./src) – директория, которая содержит исходный код приложения и его
-  тесты:
-  - [src/main/](./src/main) – здесь находится код вашего приложения
-  - [src/test/](./src/test) – здесь находятся тесты вашего приложения
-- [mvnw](./mvnw) и [mvnw.cmd](./mvnw.cmd) – скрипты maven wrapper для Unix и
-  Windows, которые позволяют запускать команды maven без локальной установки
-- [checkstyle.xml](checkstyle.xml),
-  [checkstyle-suppression.xml](checkstyle-suppression.xml), [pmd.xml](pmd.xml) и
-  [spotbugs-excludes.xml](spotbugs-excludes.xml) – в проекте используются
-  [линтеры](https://en.wikipedia.org/wiki/Lint_%28software%29) для контроля
-  качества кода. Указанные файлы содержат правила для используемых линтеров
-- [.mvn/](./.mvn) – служебная директория maven, содержащая конфигурационные
-  параметры сборщика
-- [lombok.config](lombok.config) – конфигурационный файл
-  [Lombok](https://projectlombok.org/), библиотеки помогающей избежать рутинного
-  написания шаблонного кода
-- [.editorconfig](.editorconfig) – файл с описанием настроек форматирования кода
-- [.github/workflows/build.yml](.github/workflows/build.yml) – файл с описанием
-  шагов сборки проекта в среде Github
-- [.gitattributes](.gitattributes), [.gitignore](.gitignore) – служебные файлы
-  для git, с описанием того, как обрабатывать различные файлы, и какие из них
-  игнорировать
+##### Warmup Fork: 1 of 1
+1. 0.869 ns/op
+2. 0.861 ns/op
+3. 0.860 ns/op
+4. 0.859 ns/op
+5. 0.860 ns/op
 
-## Начало работы
+##### Measurement Iterations
+1. 0.859 ns/op
+2. 0.859 ns/op
+3. 0.879 ns/op
+4. 0.885 ns/op
+5. 0.917 ns/op
+6. 0.859 ns/op
+7. 0.860 ns/op
+8. 0.859 ns/op
+9. 0.859 ns/op
+10. 0.859 ns/op
 
-Подробнее о том, как приступить к разработке, описано в разделах
-[курса][course-url] `1.8 Настройка IDE`, `1.9 Работа с Git` и
-`1.10 Настройка SSH`.
+#### Run Progress: 12.50% complete, ETA 00:10:05
 
-Для того чтобы собрать проект, и проверить, что все работает корректно, можно
-запустить из модального окна IDEA
-[Run Anything](https://www.jetbrains.com/help/idea/running-anything.html)
-команду:
+##### Fork: 1 of 1
 
-```shell
-mvn clean verify
-```
+##### Warmup Iterations
+1. 0.860 ns/op
+2. 0.860 ns/op
+3. 0.863 ns/op
+4. 0.897 ns/op
+5. 0.873 ns/op
 
-Альтернативно можно в терминале из корня проекта выполнить следующие команды.
+##### Measurement Iterations
+1. 0.869 ns/op
+2. 0.874 ns/op
+3. 0.860 ns/op
+4. 0.859 ns/op
+5. 0.860 ns/op
+6. 0.860 ns/op
+7. 0.860 ns/op
+8. 0.859 ns/op
+9. 0.859 ns/op
+10. 0.860 ns/op
 
-Для Unix (Linux, macOS, Cygwin, WSL):
+#### Result
+- **Average:** 0.862 ±(99.9%) 0.008 ns/op
+- **(min, avg, max):** (0.859, 0.862, 0.874)
+- **Standard Deviation:** 0.005
+- **Confidence Interval (99.9%):** [0.854, 0.870] (assumes normal distribution)
 
-```shell
-./mvnw clean verify
-```
+### `backend.academy.Main.lambdaMetafactory`
 
-Для Windows:
+#### Run Progress: 25.00% complete, ETA 00:08:37
 
-```shell
-mvnw.cmd clean verify
-```
+##### Warmup Fork: 1 of 1
+1. 6.439 ns/op
+2. 6.399 ns/op
+3. 6.390 ns/op
+4. 6.865 ns/op
+5. 6.969 ns/op
 
-Для окончания сборки потребуется подождать какое-то время, пока maven скачает
-все необходимые зависимости, скомпилирует проект и прогонит базовый набор
-тестов.
+##### Measurement Iterations
+1. 6.800 ns/op
+2. 7.355 ns/op
+3. 6.466 ns/op
+4. 7.549 ns/op
+5. 7.218 ns/op
+6. 6.481 ns/op
+7. 6.448 ns/op
+8. 6.487 ns/op
+9. 6.457 ns/op
+10. 6.473 ns/op
 
-Если вы в процессе сборки получили ошибку:
+#### Run Progress: 37.50% complete, ETA 00:07:11
 
-```shell
-Rule 0: org.apache.maven.enforcer.rules.version.RequireJavaVersion failed with message:
-JDK version must be at least 22
-```
+##### Fork: 1 of 1
 
-Значит, версия вашего JDK ниже 22.
+##### Warmup Iterations
+1. 7.119 ns/op
+2. 6.541 ns/op
+3. 6.420 ns/op
+4. 8.299 ns/op
+5. 7.651 ns/op
 
-Если же получили ошибку:
+##### Measurement Iterations
+1. 6.491 ns/op
+2. 6.450 ns/op
+3. 6.434 ns/op
+4. 7.843 ns/op
+5. 6.674 ns/op
+6. 6.400 ns/op
+7. 6.386 ns/op
+8. 7.117 ns/op
+9. 6.432 ns/op
+10. 7.549 ns/op
 
-```shell
-Rule 1: org.apache.maven.enforcer.rules.version.RequireMavenVersion failed with message:
-Maven version should, at least, be 3.8.8
-```
+#### Result
+- **Average:** 6.778 ±(99.9%) 0.809 ns/op
+- **(min, avg, max):** (6.386, 6.778, 7.843)
+- **Standard Deviation:** 0.535
+- **Confidence Interval (99.9%):** [5.968, 7.587] (assumes normal distribution)
 
-Значит, у вас используется версия maven ниже 3.8.8. Такого не должно произойти,
-если вы запускаете сборку из IDEA или через `mvnw`-скрипты.
+### `backend.academy.Main.methodHandle`
 
-Далее будут перечислены другие полезные команды maven.
+#### Run Progress: 50.00% complete, ETA 00:05:46
 
-Запуск только компиляции основных классов:
+##### Warmup Fork: 1 of 1
+1. 7.744 ns/op
+2. 6.760 ns/op
+3. 6.493 ns/op
+4. 6.616 ns/op
+5. 6.696 ns/op
 
-```shell
-mvn compile
-```
+##### Measurement Iterations
+1. 7.346 ns/op
+2. 7.940 ns/op
+3. 6.720 ns/op
+4. 6.972 ns/op
+5. 6.557 ns/op
+6. 6.565 ns/op
+7. 6.564 ns/op
+8. 7.648 ns/op
+9. 6.545 ns/op
+10. 6.740 ns/op
 
-Запуск тестов:
+#### Run Progress: 62.50% complete, ETA 00:04:19
 
-```shell
-mvn test
-```
+##### Fork: 1 of 1
+
+##### Warmup Iterations
+1. 7.816 ns/op
+2. 6.876 ns/op
+3. 7.000 ns/op
+4. 6.621 ns/op
+5. 6.539 ns/op
+
+##### Measurement Iterations
+1. 6.531 ns/op
+2. 7.260 ns/op
+3. 7.343 ns/op
+4. 7.294 ns/op
+5. 7.301 ns/op
+6. 7.820 ns/op
+7. 7.424 ns/op
+8. 7.740 ns/op
+9. 7.356 ns/op
+10. 7.470 ns/op
+
+#### Result
+- **Average:** 7.354 ±(99.9%) 0.523 ns/op
+- **(min, avg, max):** (6.531, 7.354, 7.820)
+- **Standard Deviation:** 0.346
+- **Confidence Interval (99.9%):** [6.831, 7.877] (assumes normal distribution)
+
+### `backend.academy.Main.reflection`
+
+#### Run Progress: 75.00% complete, ETA 00:02:52
+
+##### Warmup Fork: 1 of 1
+1. 13.716 ns/op
+2. 14.103 ns/op
+3. 13.302 ns/op
+4. 13.800 ns/op
+5. 13.399 ns/op
+
+##### Measurement Iterations
+1. 13.274 ns/op
+2. 13.303 ns/op
+3. 13.354 ns/op
+4. 13.224 ns/op
+5. 13.149 ns/op
+6. 13.212 ns/op
+7. 13.224 ns/op
+8. 13.222 ns/op
+9. 13.202 ns/op
+10. 13.213 ns/op
+
+#### Run Progress: 87.50% complete, ETA 00:01:26
+
+##### Fork: 1 of 1
+
+##### Warmup Iterations
+1. 17.654 ns/op
+2. 18.198 ns/op
+3. 17.235 ns/op
+4. 17.244 ns/op
+5. 17.261 ns/op
+
+##### Measurement Iterations
+1. 17.251 ns/op
+2. 17.185 ns/op
+3. 17.188 ns/op
+4. 17.163 ns/op
+5. 17.183 ns/op
+6. 17.184 ns/op
+7. 17.186 ns/op
+8. 17.186 ns/op
+9. 17.193 ns/op
+10. 17.208 ns/op
+
+#### Result
+- **Average:** 17.193 ±(99.9%) 0.035 ns/op
+- **(min, avg, max):** (17.163, 17.193, 17.251)
+- **Standard Deviation:** 0.023
+- **Confidence Interval (99.9%):** [17.157, 17.228] (assumes normal distribution)
+
+## Summary
+
+| Benchmark               | Mode | Cnt | Score   | Error  | Units |
+|-------------------------|------|-----|---------|--------|-------|
+| Main.directAccess       | avgt | 10  | 0.862   | ± 0.008| ns/op |
+| Main.lambdaMetafactory  | avgt | 10  | 6.778   | ± 0.809| ns/op |
+| Main.methodHandle       | avgt | 10  | 7.354   | ± 0.523| ns/op |
+| Main.reflection         | avgt | 10  | 17.193  | ± 0.035| ns/op |
+
+## Notes
+- The numbers are just data. To gain reusable insights, you need to follow up on why the numbers are the way they are. Use profilers (see `-prof`, `-lprof`), design factorial experiments, perform baseline and negative tests that provide experimental control, make sure the benchmarking environment is safe on JVM/OS/HW level, ask for reviews from the domain experts.
+- Current JVM experimentally supports Compiler Blackholes, and they are in use. Please exercise extra caution when trusting the results, look into the generated code to check the benchmark still works, and factor in a small probability of new VM bugs. Additionally, while comparisons between different JVMs are already problematic, the performance difference caused by different Blackhole modes can be very significant. Please make sure you use the consistent Blackhole mode for comparisons.
+
+## Run Complete
+- **Total time:** 00:11:30
+
+
+
+
+
 
 Запуск линтеров:
 

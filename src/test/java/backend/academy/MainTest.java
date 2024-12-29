@@ -66,8 +66,6 @@ class MainTest {
         assertEquals("", student.surname());
     }
 
-    
-
     @Test
     void testMethodHandleSetup() throws Throwable {
         MethodHandle methodHandle = MethodHandles.lookup()
@@ -135,4 +133,13 @@ class MainTest {
         assertEquals(student1, student2);
         assertNotEquals(student1, student3);
     }
+
+    @Test
+    void testReflectionSetup() throws Throwable {
+        Method method = Main.Student.class.getMethod("name");
+        Main.Student student = new Main.Student("Test", "User");
+        String result = (String) method.invoke(student);
+        assertEquals("Test", result);
+    }
+
 }
