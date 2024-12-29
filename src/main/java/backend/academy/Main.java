@@ -1,6 +1,19 @@
 package backend.academy;
 
-import org.openjdk.jmh.annotations.*;
+import java.lang.invoke.CallSite;
+import java.lang.invoke.LambdaMetafactory;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+import java.lang.reflect.Method;
+import java.util.concurrent.TimeUnit;
+import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Mode;
+import org.openjdk.jmh.annotations.OutputTimeUnit;
+import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.Setup;
+import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.infra.Blackhole;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
@@ -8,15 +21,15 @@ import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.TimeValue;
 
-import java.lang.invoke.*;
-import java.lang.reflect.Method;
-import java.util.concurrent.TimeUnit;
-
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
 @State(Scope.Thread)
+@SuppressWarnings("UUF_UNUSED_FIELD")
 public class Main {
-    record Student(String name, String surname) {}
+    private static final String NAME = "name";
+    private static final int WARMUP_ITERATIONS = 5;
+    private static final int MINUTES = 2;
+    private static final int MEASUREMENT_ITERATIONS = 10;
 
     private Student student;
     private Method method;
@@ -28,10 +41,11 @@ public class Main {
         student = new Student("Grigory", "Kuranov");
 
         // Reflection setup
-        method = Student.class.getMethod("name");
+        method = Student.class.getMethod(NAME);
 
         // MethodHandles setup
-        methodHandle = MethodHandles.lookup().findVirtual(Student.class, "name", MethodType.methodType(String.class));
+        methodHandle = MethodHandles.lookup()
+        .findVirtual(Student.class, NAME, MethodType.methodType(String.class));
 
         // LambdaMetafactory setup
         MethodHandles.Lookup lookup = MethodHandles.lookup();
@@ -59,14 +73,9 @@ public class Main {
     }
 
     @Benchmark
-    public void methodHandle(Blackhole bh) throws Throwable {
-        String name = (String) methodHandle.invoke(student);
-        bh.consume(name);
-    }
-
-    @Benchmark
     public void lambdaMetafactory(Blackhole bh) throws Throwable {
-        java.util.function.Function<Student, String> function = (java.util.function.Function<Student, String>) lambdaHandle.invoke();
+        java.util.function.Function<Student, String> function =
+        (java.util.function.Function<Student, String>) lambdaHandle.invoke();
         String name = function.apply(student);
         bh.consume(name);
     }
@@ -80,12 +89,15 @@ public class Main {
                 .timeUnit(TimeUnit.NANOSECONDS)
                 .forks(1)
                 .warmupForks(1)
-                .warmupIterations(5)
-                .warmupTime(TimeValue.seconds(5))
-                .measurementIterations(10)
-                .measurementTime(TimeValue.seconds(5))
+                .warmupIterations(WARMUP_ITERATIONS)
+                .warmupTime(TimeValue.seconds(WARMUP_ITERATIONS))
+                .measurementIterations(MEASUREMENT_ITERATIONS)
+                .measurementTime(TimeValue.minutes(MINUTES))
                 .build();
 
         new Runner(options).run();
     }
+
+    // Перемещаем запись Student в конец класса
+    record Student(String name, String surname) {}
 }
