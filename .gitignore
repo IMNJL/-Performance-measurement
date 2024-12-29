@@ -22,3 +22,5 @@ dependency-reduced-pom.xml
 ### log files ###
 *.log
 hs_err_pid*
+
+.vscode/

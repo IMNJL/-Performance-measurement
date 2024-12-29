@@ -188,6 +188,7 @@
         <dependency>
             <groupId>org.openjdk.jmh</groupId>
             <artifactId>jmh-generator-annprocess</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Tests -->
@@ -340,6 +341,7 @@
                 <groupId>org.openjdk.jmh</groupId>
                 <artifactId>jmh-generator-annprocess</artifactId>
                 <version>${jmh.version}</version>
+                <scope>provided</scope>
             </dependency>
 
             <!-- Dependency Injection -->
@@ -489,6 +491,11 @@
                                 <groupId>org.projectlombok</groupId>
                                 <artifactId>lombok</artifactId>
                                 <version>${lombok.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.openjdk.jmh</groupId>
+                                <artifactId>jmh-generator-annprocess</artifactId>
+                                <version>${jmh.version}</version>
                             </path>
                         </annotationProcessorPaths>
                     </configuration>
